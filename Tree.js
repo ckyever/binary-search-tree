@@ -169,4 +169,28 @@ export class Tree {
     }
     return currentNode.data;
   }
+
+  find(value) {
+    let node = this.recursiveFind(this.root, value);
+    return node;
+  }
+
+  recursiveFind(node, value) {
+    // Found the node
+    if (node.data == value) {
+      return node;
+    }
+
+    // No more nodes to search
+    if (node.leftChild == null && node.rightChild == null) {
+      return null;
+    }
+
+    // Go down the corresponding subtree
+    if (value < node.data) {
+      return this.recursiveFind(node.leftChild, value);
+    } else {
+      return this.recursiveFind(node.rightChild, value);
+    }
+  }
 }
