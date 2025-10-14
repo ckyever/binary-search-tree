@@ -111,6 +111,7 @@ export class Tree {
         }
       }
     }
+
     // It has a single child
     else if (
       (nodeToDelete.leftChild == null && nodeToDelete.rightChild != null) ||
@@ -124,8 +125,14 @@ export class Tree {
           nodeToDelete.leftChild ?? nodeToDelete.rightChild;
       }
     }
+
     // It has more than a single child
     else {
+      const nextBiggestValue = this.#getNextBiggestValue(nodeToDelete);
+      // Recursively delete this node
+      this.deleteItem(nextBiggestValue);
+      // Replace node to delete with this value
+      nodeToDelete.data = nextBiggestValue;
     }
   }
 
@@ -147,5 +154,19 @@ export class Tree {
       }
     }
     return { parentNode, nodeToDelete: currentNode };
+  }
+
+  #getNextBiggestValue(node) {
+    // Next biggest node will always be on the right of the original node
+    let currentNode = node.rightChild;
+
+    // Next biggest node will be the left most one
+    while (currentNode != null) {
+      if (currentNode.leftChild == null) {
+        break;
+      }
+      currentNode = currentNode.leftChild;
+    }
+    return currentNode.data;
   }
 }
