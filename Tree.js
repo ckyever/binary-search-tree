@@ -5,13 +5,46 @@ export class Tree {
     this.root = this.buildTree(array);
   }
 
+  #mergeSortRemoveDuplicates(array) {
+    if (array.length === 1) {
+      return array;
+    }
+
+    const midPoint = Math.floor(array.length / 2);
+    const left = array.slice(0, midPoint);
+    const right = array.slice(midPoint, array.length);
+
+    const sortedLeft = this.#mergeSortRemoveDuplicates(left);
+    const sortedRight = this.#mergeSortRemoveDuplicates(right);
+    return this.#mergeSortedArrays(sortedLeft, sortedRight);
+  }
+
+  #mergeSortedArrays(left, right) {
+    const mergedArray = [];
+
+    while (left.length > 0 && right.length > 0) {
+      if (left[0] === right[0]) {
+        // Ignore duplicates
+        left.shift();
+      } else if (left[0] < right[0]) {
+        mergedArray.push(left.shift());
+      } else {
+        mergedArray.push(right.shift());
+      }
+    }
+
+    return [...mergedArray, ...left, ...right];
+  }
+
   buildTree(array) {
     // If array is empty return null
     if (array.length === 0) {
       return null;
     }
 
-    return this.buildTreeWithRecursion(array, 0, array.length - 1);
+    const sortedArray = this.#mergeSortRemoveDuplicates(array);
+
+    return this.buildTreeWithRecursion(sortedArray, 0, sortedArray.length - 1);
   }
 
   buildTreeWithRecursion(array, startIndex, endIndex) {
