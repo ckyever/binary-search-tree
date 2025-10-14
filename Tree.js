@@ -89,4 +89,63 @@ export class Tree {
       }
     }
   }
+
+  deleteItem(value) {
+    let { parentNode, nodeToDelete } = this.#getNodesForDelete(value);
+    if (nodeToDelete == null) {
+      // Value doesn't exist in tree
+      return;
+    }
+
+    // It is a leaf node
+    if (nodeToDelete.leftChild == null && nodeToDelete.rightChild == null) {
+      if (parentNode == null) {
+        // We must be deleting the root node
+        this.root = null;
+        return;
+      } else {
+        if (value < parentNode.data) {
+          parentNode.leftChild = null;
+        } else {
+          parentNode.rightChild = null;
+        }
+      }
+    }
+    // It has a single child
+    else if (
+      (nodeToDelete.leftChild == null && nodeToDelete.rightChild != null) ||
+      (nodeToDelete.leftChild != null && nodeToDelete.rightChild == null)
+    ) {
+      if (value < parentNode.data) {
+        parentNode.leftChild =
+          nodeToDelete.leftChild ?? nodeToDelete.rightChild;
+      } else {
+        parentNode.rightChild =
+          nodeToDelete.leftChild ?? nodeToDelete.rightChild;
+      }
+    }
+    // It has more than a single child
+    else {
+    }
+  }
+
+  #getNodesForDelete(value) {
+    let parentNode = null;
+    let currentNode = this.root;
+
+    while (currentNode.data !== value) {
+      if (currentNode == null) {
+        // Value doesn't exist in the tree
+        break;
+      }
+      if (value < currentNode.data) {
+        parentNode = currentNode;
+        currentNode = currentNode.leftChild;
+      } else {
+        parentNode = currentNode;
+        currentNode = currentNode.rightChild;
+      }
+    }
+    return { parentNode, nodeToDelete: currentNode };
+  }
 }
