@@ -64,4 +64,29 @@ export class Tree {
     );
     return new Node(leftChild, array[midpoint], rightChild);
   }
+
+  insert(value) {
+    // If root is null add value as new node in root
+    if (this.root == null) {
+      this.root = new Node(null, value, null);
+    } else {
+      this.insertRecursively(value, this.root);
+    }
+  }
+
+  insertRecursively(value, currentNode) {
+    if (value < currentNode.data) {
+      if (currentNode.leftChild == null) {
+        currentNode.leftChild = new Node(null, value, null);
+      } else {
+        this.insertRecursively(value, currentNode.leftChild);
+      }
+    } else {
+      if (currentNode.rightChild == null) {
+        currentNode.rightChild = new Node(null, value, null);
+      } else {
+        this.insertRecursively(value, currentNode.rightChild);
+      }
+    }
+  }
 }
