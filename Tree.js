@@ -141,16 +141,16 @@ export class Tree {
     let currentNode = this.root;
 
     while (currentNode.data !== value) {
-      if (currentNode == null) {
-        // Value doesn't exist in the tree
-        break;
-      }
       if (value < currentNode.data) {
         parentNode = currentNode;
         currentNode = currentNode.leftChild;
       } else {
         parentNode = currentNode;
         currentNode = currentNode.rightChild;
+      }
+      if (currentNode == null) {
+        // Value doesn't exist in the tree
+        break;
       }
     }
     return { parentNode, nodeToDelete: currentNode };
