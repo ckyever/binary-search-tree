@@ -318,4 +318,16 @@ export class Tree {
 
     return allNodesBalanced;
   }
+
+  rebalance() {
+    const sortedArray = [];
+    this.inOrderForEach((node) => {
+      sortedArray.push(node.data);
+    });
+    this.root = this.buildTreeWithRecursion(
+      sortedArray,
+      0,
+      sortedArray.length - 1
+    );
+  }
 }
