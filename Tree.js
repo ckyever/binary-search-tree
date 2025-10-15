@@ -39,7 +39,7 @@ export class Tree {
 
   buildTree(array) {
     // If array is empty return null
-    if (array.length === 0) {
+    if (array == null || array.length === 0) {
       return null;
     }
 
