@@ -1,4 +1,5 @@
 import { Node } from "./Node.js";
+import { Queue } from "./Queue.js";
 
 export class Tree {
   constructor(array) {
@@ -191,6 +192,25 @@ export class Tree {
       return this.recursiveFind(node.leftChild, value);
     } else {
       return this.recursiveFind(node.rightChild, value);
+    }
+  }
+
+  levelOrderForEach(callback) {
+    if (callback == null) {
+      throw new Error("You must pass a callback");
+    }
+    const queue = new Queue();
+    queue.enqueue(this.root);
+
+    let currentNode;
+    while ((currentNode = queue.dequeue())) {
+      callback(currentNode);
+      if (currentNode.leftChild != null) {
+        queue.enqueue(currentNode.leftChild);
+      }
+      if (currentNode.rightChild != null) {
+        queue.enqueue(currentNode.rightChild);
+      }
     }
   }
 }
