@@ -279,4 +279,27 @@ export class Tree {
       )
     );
   }
+
+  depth(value) {
+    // Call recursive depth on root
+    return this.#recursiveDepth(this.root, value);
+  }
+
+  #recursiveDepth(node, value) {
+    if (node === null) {
+      return null;
+    }
+    if (node.data === value) {
+      return 0;
+    }
+
+    const leftDepth = this.#recursiveDepth(node.leftChild, value);
+    const rightDepth = this.#recursiveDepth(node.rightChild, value);
+
+    // Ensure this equals which ever value is not null
+    // If both are null then the value does not exist in this subtree
+    const actualDepth = leftDepth ?? rightDepth;
+
+    return actualDepth == null ? null : actualDepth + 1;
+  }
 }
