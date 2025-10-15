@@ -13,10 +13,51 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-const bst = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-bst.insert(1000);
-bst.insert(10000);
-bst.insert(0.5);
-bst.insert(8.5);
+function createRandomIntegerArray(length) {
+  const array = [];
+  for (let i = 0; i < length; i++) {
+    array.push(Math.floor(Math.random() * 1000));
+  }
+  return array;
+}
+
+function testBalance(bst) {
+  console.log(bst.isBalanced() ? "Is Balanced" : "Is NOT Balanced");
+}
+
+function testTraversal(bst) {
+  let inOrderArray = [];
+  bst.inOrderForEach((node) => inOrderArray.push(node.data));
+  console.log(inOrderArray);
+
+  let preOrderArray = [];
+  bst.preOrderForEach((node) => preOrderArray.push(node.data));
+  console.log(preOrderArray);
+
+  let postOrderArray = [];
+  bst.postOrderForEach((node) => postOrderArray.push(node.data));
+  console.log(postOrderArray);
+}
+
+// Create and test initial BST
+const unsortedArray = createRandomIntegerArray(50);
+const bst = new Tree(unsortedArray);
 prettyPrint(bst.root);
-console.log(bst.isBalanced());
+testBalance(bst);
+testTraversal(bst);
+
+// Unbalance BST
+function unBalanceTree(tree, numberOfIntegers) {
+  for (let i = 0; i < numberOfIntegers; i++) {
+    tree.insert(Math.floor(Math.random() * 1000));
+  }
+}
+unBalanceTree(bst, 200);
+prettyPrint(bst.root);
+testBalance(bst);
+
+// Rebalance BST
+bst.rebalance();
+prettyPrint(bst.root);
+testBalance(bst);
+testTraversal(bst);
