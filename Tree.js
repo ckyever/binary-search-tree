@@ -227,4 +227,18 @@ export class Tree {
     callback(node);
     this.#recursiveInOrderForEach(callback, node.rightChild);
   }
+
+  preOrderForEach(callback) {
+    this.#recursivePreOrderForEach(callback, this.root);
+  }
+
+  #recursivePreOrderForEach(callback, node) {
+    if (node == null) {
+      return;
+    }
+
+    callback(node);
+    this.#recursivePreOrderForEach(callback, node.leftChild);
+    this.#recursivePreOrderForEach(callback, node.rightChild);
+  }
 }
