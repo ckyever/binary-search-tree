@@ -213,4 +213,18 @@ export class Tree {
       }
     }
   }
+
+  inOrderForEach(callback) {
+    this.#recursiveInOrderForEach(callback, this.root);
+  }
+
+  #recursiveInOrderForEach(callback, node) {
+    if (node == null) {
+      return;
+    }
+
+    this.#recursiveInOrderForEach(callback, node.leftChild);
+    callback(node);
+    this.#recursiveInOrderForEach(callback, node.rightChild);
+  }
 }
