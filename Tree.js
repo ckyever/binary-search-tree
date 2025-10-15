@@ -255,4 +255,28 @@ export class Tree {
     this.#recursivePostOrderForEach(callback, node.rightChild);
     callback(node);
   }
+
+  height(value) {
+    let height = null;
+    this.preOrderForEach((node) => {
+      if (node.data == value) {
+        height = this.#recursiveHeight(node);
+      }
+    });
+
+    return height;
+  }
+
+  #recursiveHeight(node) {
+    if (node == null) {
+      return -1; // Start at -1 from null child so the previous node is treated as 0
+    }
+    return (
+      1 +
+      Math.max(
+        this.#recursiveHeight(node.leftChild),
+        this.#recursiveHeight(node.rightChild)
+      )
+    );
+  }
 }
