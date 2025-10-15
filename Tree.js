@@ -302,4 +302,20 @@ export class Tree {
 
     return actualDepth == null ? null : actualDepth + 1;
   }
+
+  isBalanced() {
+    let allNodesBalanced = true;
+
+    this.postOrderForEach((node) => {
+      const leftHeight = this.#recursiveHeight(node.leftChild);
+      const rightHeight = this.#recursiveHeight(node.rightChild);
+
+      if (Math.abs(leftHeight - rightHeight) > 1) {
+        // We've found one node that is not balanced hence all of the tree is not balanced
+        allNodesBalanced = allNodesBalanced && false;
+      }
+    });
+
+    return allNodesBalanced;
+  }
 }
